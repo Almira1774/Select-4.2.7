@@ -58,15 +58,20 @@ class View {
         <path d="M1 1L15 15M15 1L1 15" stroke="white" stroke-width="2" stroke-linecap="round"/>
     </svg>
 `;
+
         const addedElement = this.createUser(user)
+       
         console.log(addedElement)
         const checkedItem = this.createElement('div', 'added-users')
+        btnClose.addEventListener('click', () => {
+            checkedList.removeChild(checkedItem)
+        })
         let checkedList = this.searchWrapper.querySelector('.checked-users-wrapper')
         if (!checkedList) {
             checkedList = this.createElement('div', 'checked-users-wrapper')
             this.searchWrapper.append(checkedList)
         }
-        
+
         checkedItem.append(addedElement)
         checkedItem.append(btnClose)
         checkedList.append(checkedItem)
@@ -74,13 +79,28 @@ class View {
         this.searchInput.value = ''
         return addedElement
     }
+    debounce(fn, debounceTime) {
+        let timer
+        return function () {
+            const callFn = () => {
+                fn.apply(this, arguments)
+            }
+            clearTimeout(timer)
+            timer = setTimeout(callFn, debounceTime)
+
+        }
+
+    };
 }
 
 class Search {
     constructor(view) {
         this.view = view;
         this.controller = new AbortController();
-        this.view.searchInput.addEventListener('keyup', this.searchUsers.bind(this));
+
+        this.debouncedSearchUsers = this.view.debounce(this.searchUsers.bind(this), 600);
+
+        this.view.searchInput.addEventListener('keyup', this.debouncedSearchUsers.bind(this));
         this.view.searchInput.addEventListener('keypress', this.handleKeyPress.bind(this));
 
     }
