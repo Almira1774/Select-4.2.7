@@ -44,28 +44,31 @@ class View {
     searchClear() {
         this.usersList.innerHTML = ''; //очищаем список поиска
     }
-    createCheckedList(user) {
-        if (this.checkedWrapper) {
-            this.checkedWrapper.append(user);
-            return user;                                  //создаем обертку для списка добавленных реппозиториев
+    createData(user) {
+        return {
+            name: user.name,
+            owner: user.language,
+            stars: user.stargazers_count
         }
-        this.checkedWrapper = this.createElement('div', 'checked-users-wrapper');
-        this.searchWrapper.append(this.checkedWrapper);
-        this.checkedWrapper.append(user);
-        return user;
     }
-    addUserChecked(userItem) {
-        const addedUser = this.createCheckedList(userItem)
-        console.log(addedUser);                                   //добавляем элемент
-        this.searchInput.value = '';
-        this.searchClear();
-        this.usersList.innerHTML = '';
-      
+    createCheckedList(user) {
+        const addedElement = this.createUser(user)
+        console.log(addedElement)
+        const checkedItem = this.createElement('div', 'added-users')
+        let checkedList = this.searchWrapper.querySelector('.checked-users-wrapper')
+        if (!checkedList) {
+            checkedList = this.createElement('div', 'checked-users-wrapper')
+            this.searchWrapper.append(checkedList)
+        }
+
+        checkedItem.append(addedElement)
+        checkedList.append(checkedItem)
+        this.searchClear()
+        this.searchInput.value = ''
+
+        return addedElement
     }
-
-
 }
-
 
 class Search {
     constructor(view) {
@@ -111,14 +114,11 @@ class Search {
             const result = data.items.slice(0, 5);
 
             result.forEach(item => {
-                const userData = {
-                    name: item.name,
-                    owner: item.language,
-                    stars: item.stargazers_count
-                }
+                const userData = this.view.createData(item)
                 const userItem = this.view.createUser(userData);
+                console.log(userItem)
                 userItem.addEventListener('click', () => {
-                    this.view.addUserChecked(userItem);
+                    this.view.createCheckedList(userData);
                 })
 
             })
