@@ -37,7 +37,7 @@ html {
     margin: 0;
 }
 
-.user, .added-users {
+.user {
     display: flex;
     list-style: none;
     width: 500px;
@@ -47,7 +47,25 @@ html {
     padding-left: 16px;
 
 }
+.added-users{
+    display: flex;
+    list-style: none;
+    background-color: #fdfcfd;
+    background-position: -50px 3px;
+    height: 61px;
+    border: 1px solid #000000;
+}
 
+.btn-close{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 100%;
+    background: #550255; /* Прозрачный фон */
+    border: none; /* Убираем рамку */
+    cursor: pointer; /* Указываем, что это кнопка */
+}
 .user-info {
     align-self: center;
 }

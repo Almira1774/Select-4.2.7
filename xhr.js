@@ -52,6 +52,12 @@ class View {
         }
     }
     createCheckedList(user) {
+        const btnClose = this.createElement('div', 'btn-close')
+        btnClose.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L15 15M15 1L1 15" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+`;
         const addedElement = this.createUser(user)
         console.log(addedElement)
         const checkedItem = this.createElement('div', 'added-users')
@@ -60,12 +66,12 @@ class View {
             checkedList = this.createElement('div', 'checked-users-wrapper')
             this.searchWrapper.append(checkedList)
         }
-
+        
         checkedItem.append(addedElement)
+        checkedItem.append(btnClose)
         checkedList.append(checkedItem)
         this.searchClear()
         this.searchInput.value = ''
-
         return addedElement
     }
 }
