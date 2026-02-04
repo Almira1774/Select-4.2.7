@@ -7,7 +7,8 @@ class View {
         this.searchLine = this.createElement('div', 'search-line');
 
         this.searchInput = this.createElement('input', 'search-input');
-
+        this.searchInput.type = 'text';
+        this.searchInput.placeholder = 'Введите имя реппозитория...';
 
         this.usersWrapper = this.createElement('div', 'users-wrapper');
         this.usersList = this.createElement('ul', 'users-list');
@@ -28,10 +29,10 @@ class View {
         return element;
     }
     createUser(userData, className) {
-    
-    
-    
-       
+
+
+
+
         // Создаем элемент пользователя
         const userElement = this.createElement('li', className);
         userElement.innerHTML = `<div class="user-info" > 
@@ -39,14 +40,14 @@ class View {
                                    <span class="user-owner">Owner: ${userData.owner}</span><br>
                                    <span>Stars: ${userData.stars}</span> 
                                  </div>`;
-    
-        
+
+
         this.usersList.append(userElement);
-    
+
         return userElement;
     }
-    
-    
+
+
     onFocuse(element) {
         element.addEventListener('mouseover', () => {
             console.log('Mouse over event triggered');
@@ -69,7 +70,7 @@ class View {
             stars: user.stargazers_count
         }
     }
-   
+
     debounce(fn, debounceTime) {
         let timer
         return function () {
@@ -97,8 +98,8 @@ class Search {
 
     }
     createCheckedList(user) {
-      
-const checkedItem = this.view.createElement('div', 'added-users')
+
+        const checkedItem = this.view.createElement('div', 'added-users')
         const addedElement = this.view.createUser(user, 'added-users-item')
 
         console.log(addedElement)
@@ -112,14 +113,14 @@ const checkedItem = this.view.createElement('div', 'added-users')
             checkedList.removeChild(checkedItem)
             this.addedIds.delete(user.id);
             console.log(this.addedIds)
-          
+
         })
         let checkedList = this.view.searchWrapper.querySelector('.checked-users-wrapper')
         if (!checkedList) {
             checkedList = this.view.createElement('div', 'checked-users-wrapper')
             this.view.searchWrapper.append(checkedList)
         }
-
+        this.view.onFocuse(checkedItem);
         checkedItem.append(addedElement)
         checkedItem.append(btnClose)
         checkedList.append(checkedItem)
@@ -142,14 +143,26 @@ const checkedItem = this.view.createElement('div', 'added-users')
 
 
     async searchUsers() {
+
         if (this.view.searchInput.value.trim() === '') {
             this.abortRequest();
             this.view.searchClear();
             return;
         }
 
+        
+
         try {
-           
+            
+            this.view.searchWrapper.addEventListener('click', (event) => {
+                if (!this.view.searchInput.contains(event.target)) {
+                    console.log('clicked outside');
+                    this.view.searchClear();
+                    this.view.searchInput.value = '';
+                }
+            })
+         
+       
             const signal = this.controller.signal;
             const response = await fetch(`https://api.github.com/search/repositories?q=${this.view.searchInput.value}`, {
                 signal: signal,
@@ -165,16 +178,16 @@ const checkedItem = this.view.createElement('div', 'added-users')
             result.forEach(item => {
 
                 const userData = this.view.createData(item)
-               
-                
+
+
                 const userItem = this.view.createUser(userData, 'user');
-                
+
                 this.view.onFocuse(userItem);
                 console.log(userItem)
-                
+
                 userItem.addEventListener('click', () => {
                     if (this.addedIds.has(userData.id)) {
-                       console.log('This user is already added!');
+                        console.log('This user is already added!');
                         this.view.searchClear();
                         this.view.searchInput.value = '';
                         return;
@@ -183,6 +196,7 @@ const checkedItem = this.view.createElement('div', 'added-users')
                     console.log(userData.id)
                     this.addedIds.add(userData.id);
                     console.log(this.addedIds)
+                   
                 })
 
             })
