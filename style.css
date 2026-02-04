@@ -52,15 +52,17 @@ html {
 .added-users{
     display: flex;
     list-style: none;
+    width: 500px;
     background-color: #fdfcfd;
-    background-position: -50px 3px;
     height: 61px;
     border: 1px solid #000000;
+    padding-left: 16px;
+}
+.added-users-item{
+    width: 100%;
 }
 
-.added-users:hover .btn-close{
-    background-color: aquamarine;
-}
+
 
 .btn-close{
     display: flex;

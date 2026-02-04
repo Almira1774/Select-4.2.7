@@ -27,20 +27,20 @@ class View {
         }
         return element;
     }
-    createUser(userData) {
+    createUser(userData, className) {
     
     
     
        
         // Создаем элемент пользователя
-        const userElement = this.createElement('li', 'user');
+        const userElement = this.createElement('li', className);
         userElement.innerHTML = `<div class="user-info" > 
                                    <span class="user-name">Name: ${userData.name}</span><br>
                                    <span class="user-owner">Owner: ${userData.owner}</span><br>
                                    <span>Stars: ${userData.stars}</span> 
                                  </div>`;
     
-        this.onFocuse(userElement);
+        
         this.usersList.append(userElement);
     
         return userElement;
@@ -76,11 +76,11 @@ class View {
         <path d="M1 1L15 15M15 1L1 15" stroke="white" stroke-width="2" stroke-linecap="round"/>
     </svg>
 `;
-
-        const addedElement = this.createUser(user)
+const checkedItem = this.createElement('div', 'added-users')
+        const addedElement = this.createUser(user, 'added-users-item')
 
         console.log(addedElement)
-        const checkedItem = this.createElement('div', 'added-users')
+        
         btnClose.addEventListener('click', () => {
             checkedList.removeChild(checkedItem)
         })
@@ -160,7 +160,8 @@ class Search {
             result.forEach(item => {
 
                 const userData = this.view.createData(item)
-                const userItem = this.view.createUser(userData);
+                const userItem = this.view.createUser(userData, 'user');
+                this.view.onFocuse(userItem);
                 console.log(userItem)
                 userItem.addEventListener('click', () => {
                     this.view.createCheckedList(userData);
