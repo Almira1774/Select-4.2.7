@@ -69,34 +69,7 @@ class View {
             stars: user.stargazers_count
         }
     }
-    createCheckedList(user) {
-        const btnClose = this.createElement('div', 'btn-close')
-        btnClose.innerHTML = `
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1 1L15 15M15 1L1 15" stroke="white" stroke-width="2" stroke-linecap="round"/>
-    </svg>
-`;
-const checkedItem = this.createElement('div', 'added-users')
-        const addedElement = this.createUser(user, 'added-users-item')
-
-        console.log(addedElement)
-        
-        btnClose.addEventListener('click', () => {
-            checkedList.removeChild(checkedItem)
-        })
-        let checkedList = this.searchWrapper.querySelector('.checked-users-wrapper')
-        if (!checkedList) {
-            checkedList = this.createElement('div', 'checked-users-wrapper')
-            this.searchWrapper.append(checkedList)
-        }
-
-        checkedItem.append(addedElement)
-        checkedItem.append(btnClose)
-        checkedList.append(checkedItem)
-        this.searchClear()
-        this.searchInput.value = ''
-        return addedElement
-    }
+   
     debounce(fn, debounceTime) {
         let timer
         return function () {
@@ -120,7 +93,39 @@ class Search {
 
         this.view.searchInput.addEventListener('keyup', this.debouncedSearchUsers.bind(this));
         this.view.searchInput.addEventListener('keypress', this.handleKeyPress.bind(this));
+        this.addedIds = new Set();
 
+    }
+    createCheckedList(user) {
+      
+const checkedItem = this.view.createElement('div', 'added-users')
+        const addedElement = this.view.createUser(user, 'added-users-item')
+
+        console.log(addedElement)
+        const btnClose = this.view.createElement('div', 'btn-close')
+        btnClose.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L15 15M15 1L1 15" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+`;
+        btnClose.addEventListener('click', () => {
+            checkedList.removeChild(checkedItem)
+            this.addedIds.delete(user.id);
+            console.log(this.addedIds)
+          
+        })
+        let checkedList = this.view.searchWrapper.querySelector('.checked-users-wrapper')
+        if (!checkedList) {
+            checkedList = this.view.createElement('div', 'checked-users-wrapper')
+            this.view.searchWrapper.append(checkedList)
+        }
+
+        checkedItem.append(addedElement)
+        checkedItem.append(btnClose)
+        checkedList.append(checkedItem)
+        this.view.searchClear()
+        this.view.searchInput.value = ''
+        return addedElement
     }
     abortRequest() {
         this.controller.abort()
@@ -144,7 +149,7 @@ class Search {
         }
 
         try {
-
+           
             const signal = this.controller.signal;
             const response = await fetch(`https://api.github.com/search/repositories?q=${this.view.searchInput.value}`, {
                 signal: signal,
@@ -160,11 +165,24 @@ class Search {
             result.forEach(item => {
 
                 const userData = this.view.createData(item)
+               
+                
                 const userItem = this.view.createUser(userData, 'user');
+                
                 this.view.onFocuse(userItem);
                 console.log(userItem)
+                
                 userItem.addEventListener('click', () => {
-                    this.view.createCheckedList(userData);
+                    if (this.addedIds.has(userData.id)) {
+                       console.log('This user is already added!');
+                        this.view.searchClear();
+                        this.view.searchInput.value = '';
+                        return;
+                    }
+                    this.createCheckedList(userData);
+                    console.log(userData.id)
+                    this.addedIds.add(userData.id);
+                    console.log(this.addedIds)
                 })
 
             })
