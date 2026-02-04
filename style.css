@@ -32,7 +32,7 @@ html {
 
 
 
-.users-list {
+.search-list {
     padding: 0;
     margin: 0;
 }
@@ -48,9 +48,7 @@ html {
     cursor: pointer;
 
 }
-.focused {
-    background-color: aquamarine;
-}
+
 .added-users{
     display: flex;
     list-style: none;
@@ -58,6 +56,10 @@ html {
     background-position: -50px 3px;
     height: 61px;
     border: 1px solid #000000;
+}
+
+.added-users:hover .btn-close{
+    background-color: aquamarine;
 }
 
 .btn-close{
@@ -69,6 +71,10 @@ html {
     background: #550255; /* Прозрачный фон */
     border: none; /* Убираем рамку */
     cursor: pointer; /* Указываем, что это кнопка */
+}
+
+.focused {
+    background-color: aquamarine;
 }
 .user-info {
     align-self: center;

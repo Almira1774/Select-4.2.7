@@ -28,24 +28,42 @@ class View {
         return element;
     }
     createUser(userData) {
+    
+    
+    
+       
+        // Создаем элемент пользователя
         const userElement = this.createElement('li', 'user');
-        userElement.innerHTML = `<div class="user-info"> 
-                                   <span class = "user-name">Name: ${userData.name} </span><br>
+        userElement.innerHTML = `<div class="user-info" > 
+                                   <span class="user-name">Name: ${userData.name}</span><br>
                                    <span class="user-owner">Owner: ${userData.owner}</span><br>
                                    <span>Stars: ${userData.stars}</span> 
                                  </div>`;
-
-
+    
+        this.onFocuse(userElement);
         this.usersList.append(userElement);
+    
         return userElement;
-
-
     }
+    
+    
+    onFocuse(element) {
+        element.addEventListener('mouseover', () => {
+            console.log('Mouse over event triggered');
+            element.classList.add('focused')
+        })
+        element.addEventListener('mouseout', () => {
+            console.log('Mouse over event triggered');
+            element.classList.remove('focused')
+        })
+    }
+
     searchClear() {
         this.usersList.innerHTML = ''; //очищаем список поиска
     }
     createData(user) {
         return {
+            id: user.id,
             name: user.name,
             owner: user.language,
             stars: user.stargazers_count
@@ -60,7 +78,7 @@ class View {
 `;
 
         const addedElement = this.createUser(user)
-       
+
         console.log(addedElement)
         const checkedItem = this.createElement('div', 'added-users')
         btnClose.addEventListener('click', () => {
@@ -140,6 +158,7 @@ class Search {
             const result = data.items.slice(0, 5);
 
             result.forEach(item => {
+
                 const userData = this.view.createData(item)
                 const userItem = this.view.createUser(userData);
                 console.log(userItem)
