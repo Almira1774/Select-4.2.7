@@ -26,7 +26,21 @@ class View {
         }
         return element;
     }
-    createUser(userData, className) {
+    createSearchingElement(userData, className) {
+
+        // Создаем элемент репозитория
+        const userElement = this.createElement('li', className);
+        userElement.innerHTML = `<div class="repository-info" > 
+                                   <span class="repository-info_name">Name: ${userData.name}</span><br>
+                                  
+                                 </div>`;
+
+
+        this.repositoriesList.append(userElement);
+
+        return userElement;
+    }
+    createAddedElement(userData, className) {
 
         // Создаем элемент репозитория
         const userElement = this.createElement('li', className);
@@ -41,6 +55,7 @@ class View {
 
         return userElement;
     }
+
 
 
     onFocuse(element) {
@@ -102,7 +117,7 @@ class Search {
     createaddedList(user) {
 
         const repositoryWraper = this.view.createElement('div', 'added-repository-wraper')
-        const addedElement = this.view.createUser(user, 'added-repository')
+        const addedElement = this.view.createAddedElement(user, 'added-repository')
         const btnClose = this.view.createElement('div', 'btn-close')
         btnClose.innerHTML = `
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,7 +166,8 @@ class Search {
         }
 
         try {         
-            
+
+
             const signal = this.controller.signal;
             const response = await fetch(`https://api.github.com/search/repositories?q=${this.view.searchInput.value}`, {
                 signal: signal,
@@ -171,7 +187,7 @@ class Search {
             result.forEach(item => {
 
                 const userData = this.view.createData(item)
-                const userItem = this.view.createUser(userData, 'user');
+                const userItem = this.view.createSearchingElement(userData, 'user');
                 this.view.onFocuse(userItem);
                 console.log(userItem)
 
