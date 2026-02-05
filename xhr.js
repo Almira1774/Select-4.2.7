@@ -28,7 +28,7 @@ class View {
     }
     createUser(userData, className) {
 
-        // Создаем элемент пользователя
+        // Создаем элемент репозитория
         const userElement = this.createElement('li', className);
         userElement.innerHTML = `<div class="repository-info" > 
                                    <span class="repository-info_name">Name: ${userData.name}</span><br>
@@ -88,10 +88,10 @@ class Search {
         this.view.searchInput.addEventListener('keyup', this.debouncedSearchUsers.bind(this));
         this.view.searchInput.addEventListener('keypress', this.handleKeyPress.bind(this));
         this.addedIds = new Set();
-        
+
         this.view.searchWrapper.addEventListener('click', (event) => {
             if (!this.view.searchInput.contains(event.target)) {
-                console.log('clicked outside');
+                console.log('clicked outside');                      // Проверка на клик вне инпута
                 this.view.clearSearchList();
                 this.view.searchInput.value = '';
             }
@@ -133,7 +133,7 @@ class Search {
         this.controller = new AbortController()
     }
     handleKeyPress(event) {
-        if (event.key === ' ' && this.view.searchInput.value.trim() === '') {
+        if (event.key === ' ' && this.view.searchInput.value.trim() === '') { // Предотвращаем ввод пробела в начале
             this.abortRequest();
         }
     }
@@ -151,8 +151,7 @@ class Search {
         }
 
         try {         
-
-
+            
             const signal = this.controller.signal;
             const response = await fetch(`https://api.github.com/search/repositories?q=${this.view.searchInput.value}`, {
                 signal: signal,

@@ -9,39 +9,70 @@ html {
 }
 
 @font-face {
-    font-family: 'Roboto';
-    src: url('/static/Roboto-Bold.ttf') format('truetype');
-    font-weight: 400px;
-    font-style: normal;
+    font-family: "TTLakes";
+    src: local("TTLakes-Medium"),
+        local("TTLakes-Regular"),
+        local("TTLakes-Bold"),
+        url("fonts/TTLakes/TTLakes-Medium.woff") format("woff"),
+        url("fonts/TTLakes/TTLakes-Regular.woff") format("woff"),
+        url("fonts/TTLakes/TTLakes-Bold.woff") format("woff");
+    font-weight: 400;
 
 }
 
+@font-face {
+    font-family: "TTLakes";
+    src: url("fonts/TTLakes/TTLakes-Bold.woff") format("woff");
+    font-weight: 700;
 
+}
+
+@font-face {
+    font-family: "TTLakes";
+    src: url("fonts/TTLakes/TTLakes-Medium.woff") format("woff");
+    font-weight: 500;
+
+}
+
+.body{
+    display: flex;
+    max-width: 100%;
+}
 .search-wrapper {
     display: flex;
     flex-direction: column;
     width: 661px;
-    height: 763px;
-    place-items: center;
-    font-family: 'Roboto', sans-serif;
+    min-height: 763px;
     background-color: #C4C4C4;
+    font-family: 'TTLakes', sans-serif;
+    align-items: center;
+ margin-left: auto;
+ margin-right: auto;
 }
 
 .input-wrapper {
     height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    
 }
 
 .input-wrapper_input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 48px;
+    font-family: 'TTLakes';
+    font-weight: 700;
+    font-size: 24px;
     line-height: 100%;
+    letter-spacing: 0%;
     width: 500px;
     height: 61px;
     background-color: #FFFFFF;
     border: none;
     padding: 0 15px;
-    font-size: 16px;
     margin-top: 62px;
+    outline: none;    
+    border: 1px solid #102b1b;
+    margin-right: auto;
+    margin-right: auto;
 }
 
 
@@ -60,8 +91,8 @@ html {
     list-style: none;
     width: 500px;
     background-color: #fdfcfd;
-    height: 61px;
-    border: 1px solid #000000;
+    height: 70px;
+    border: 1px solid #102b1b;
     padding-left: 16px;
     cursor: pointer;
 
@@ -72,8 +103,8 @@ html {
     list-style: none;
     width: 500px;
     background-color: #fdfcfd;
-    height: 65px;
-    border: 1px solid #000000;
+    height: 70px;
+    border: 1px solid #102b1b;
     padding-left: 16px;
     cursor: pointer;
 }
@@ -92,16 +123,13 @@ html {
     justify-content: center;
     width: 40px;
     height: 100%;
-    background: #550255;
-    /* Прозрачный фон */
+    background: #2e794d;
     border: none;
-    /* Убираем рамку */
     cursor: pointer;
-    /* Указываем, что это кнопка */
 }
 
 .focused {
-    background-color: aquamarine;
+    background-color: rgb(178, 199, 192);
 }
 
 .repository-info {
@@ -114,7 +142,7 @@ html {
     flex-direction: column;
     list-style: none;
     width: 500px;
-    background-color: #b33eb3;
+    background-color: #a89fa8;
     height: auto;
 
 }
