@@ -8,19 +8,33 @@ html {
     box-sizing: inherit;
 }
 
+@font-face {
+    font-family: 'Roboto';
+    src: url('/static/Roboto-Bold.ttf') format('truetype');
+    font-weight: 400px;
+    font-style: normal;
+
+}
+
+
 .search-wrapper {
     display: flex;
     flex-direction: column;
     width: 661px;
     height: 763px;
     place-items: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #C4C4C4;
 }
-.search-line{
+
+.input-wrapper {
     height: auto;
 }
-.search-input {
+
+.input-wrapper_input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 48px;
+    line-height: 100%;
     width: 500px;
     height: 61px;
     background-color: #FFFFFF;
@@ -36,9 +50,11 @@ html {
     padding: 0;
     margin: 0;
 }
-.users-list{
+
+.repositories-wrapper__list{
     padding-left: 0;
 }
+
 .user {
     display: flex;
     list-style: none;
@@ -51,7 +67,7 @@ html {
 
 }
 
-.added-users{
+.added-repository-wraper {
     display: flex;
     list-style: none;
     width: 500px;
@@ -61,7 +77,8 @@ html {
     padding-left: 16px;
     cursor: pointer;
 }
-.added-users-item{
+
+.added-repository {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -69,31 +86,35 @@ html {
 
 
 
-.btn-close{
+.btn-close {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 100%;
-    background: #550255; /* Прозрачный фон */
-    border: none; /* Убираем рамку */
-    cursor: pointer; /* Указываем, что это кнопка */
+    background: #550255;
+    /* Прозрачный фон */
+    border: none;
+    /* Убираем рамку */
+    cursor: pointer;
+    /* Указываем, что это кнопка */
 }
 
 .focused {
     background-color: aquamarine;
 }
-.user-info {
+
+.repository-info {
     align-self: center;
 }
 
-.checked-users-wrapper{
-    margin-top:60px;
+.added-list {
+    margin-top: 60px;
     display: flex;
     flex-direction: column;
     list-style: none;
     width: 500px;
     background-color: #b33eb3;
-    height:auto;
+    height: auto;
 
 }
